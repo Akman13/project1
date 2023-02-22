@@ -1,0 +1,81 @@
+/* Get a good google font */
+/* We want an awesome nice big bold cartoony header for Tic Tac Toe */
+
+*{
+    box-sizing: border-box;
+    /* border: 1px solid blue; */
+}
+
+body, html {
+    margin: 0;
+    height: 100%;
+}
+
+.intro {
+    margin: auto;
+    width: 60%;
+    height:20%;
+    padding: 20px 0;;
+}
+
+.intro h1 {
+    text-align: center;
+    font-size: 60px;
+    margin: 0;
+}
+
+.intro p {
+    text-align: center;
+    font-size: 1.3vw;
+    margin: 15px;
+}
+
+main {
+    display: grid;
+    grid-template-columns: 0.5fr 1.75fr 0.5fr;
+    height: 80%;
+}
+
+.grid {
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    grid-template-rows: repeat(3,1fr);
+    background-color: bisque;
+    gap: 5px;
+    height: 39vw;
+    min-height: 70%;    
+    aspect-ratio: 1;
+}
+
+.empty-cell {
+    background-color: white;
+    display: flex;
+}
+
+footer {
+    margin-left: 15px;
+}
+
+*[token="x"] {
+    background-image: url('images/x-img.png');
+    background-color: white;
+    background-size:90%;
+    background-repeat:no-repeat;
+    background-position: center;
+    display: flex;
+}
+
+*[token="o"] {
+    background-image: url('images/o-img.png');
+    background-color: white;
+    background-size:90%;
+    background-repeat:no-repeat;
+    background-position: center;
+    display: flex;
+}
+
+#play-again {
+    display: none;
+    margin: auto;
+}
