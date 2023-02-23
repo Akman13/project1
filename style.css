@@ -16,6 +16,13 @@ body, html {
     height: 100%;
 }
 
+#credits {
+    
+    text-decoration: none;
+    font-size: 0.8em;
+    color: black;
+}
+
 .intro {
     margin: auto;
     width: 60%;
@@ -41,12 +48,14 @@ main {
     height: 80%;
 }
 
-.player1 h1, .player2 h1 {
+.player1-scoreboard h1, .player2-scoreboard h1 {
     text-align: center;
+    font-size: 3.5em;
 }
 
-.player1 p, .player2 p {
+.player1-scoreboard p, .player2-scoreboard p {
     margin-left: 8px;
+    font-size: 1.5em;
 }
 
 .grid {
@@ -73,7 +82,7 @@ main {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    border: 3px solid #8fd0e8;
+    border: 8px solid #8fd0e8;
     border-radius: 8px;
     z-index: 2;
 }
@@ -87,14 +96,77 @@ main {
     background-color: white;
 }
 
-.player2, .player2-name, .player2-avatar, .player2-token {
-    padding-left: 30px;
-
+.form-container label {
+    font-size: 1.1em;
 }
 
 .form-container h1 {
     grid-column: 1 / 3;
     text-align: center;
+}
+
+.form-container ul {
+    padding-left: 0px;
+    display: flex;
+    max-width: 75%;
+    list-style: none;
+    justify-content: space-evenly;
+    margin: 5px 0 5px 0;
+}
+
+.player1-avatar li, .player2-avatar li {
+    display: inline-block;
+    max-width: 25%;
+    text-align: center;
+    margin: 5px;
+}
+
+.unselected-avatar, .unselected-token {
+    display: inline-block;
+    width: 100%;
+    border: 4px solid transparent;
+    margin: auto;
+}
+
+.player1-avatar img:hover, .player2-avatar img:hover {
+    box-sizing: border-box;
+    border: 4px solid #8fd0e8;
+    border-radius: 100%;
+}
+
+
+.selected-avatar {
+    box-sizing: border-box;
+    border: 4px solid #8fd0e8;
+    border-radius: 100%;
+}
+
+.player1-token li, .player2-token li {
+    display: inline-block;
+    max-width: 20%;
+    text-align: center;
+    padding: 5px 0 5px 0;
+    margin: auto;
+}
+
+@keyframes wiggle {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(1px, 1px) rotate(5deg); }
+    50% { transform: translate(0, 0) rotate(0eg); }
+    75% { transform: translate(-1px, 1px) rotate(-5deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+.unselected-token:hover {
+    animation-duration: 0.7s;
+    animation-iteration-count: infinite;
+    animation-name: wiggle;
+}
+
+.selected-token {
+    animation-duration: 0.7s;
+    animation-iteration-count: infinite;
+    animation-name: wiggle;
 }
 
 .form-container * input {
@@ -113,6 +185,7 @@ main {
 .form-container .game-config {
     grid-column: 1 / 3;
     text-align: center;
+    margin: auto;
 }
 
 .form-container .form-buttons {

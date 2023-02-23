@@ -1,6 +1,7 @@
 let players = {
     player1: {
         name: 'Akram',
+        avatar: '',
         token: 'x',
         tokenLocations: [],
         gameStatus: "",
@@ -8,6 +9,7 @@ let players = {
     },
     player2: {
         name: 'Bob',
+        avatar: '',
         token: 'o',
         tokenLocations: [],
         gameStatus: "",
@@ -28,12 +30,74 @@ let playAgainBtn = document.querySelector('#play-again');
 let formPopup = document.querySelector('.form-popup');
 let p1Name = document.querySelector('.player1-name input');
 let p2Name = document.querySelector('.player2-name input');
+let avatarImgs = document.querySelectorAll('.player1-avatar img, .player2-avatar img');
+let tokenImgs = document.querySelectorAll('.player1-token img, .player2-token img');
 let gameDuration = document.querySelector('.game-config input');
+let submitBtn = document.querySelector('#submit');
 let cancelBtn = document.querySelector('#cancel');
 
 let infoPara = document.querySelector('.intro p');
 let p1Score = document.querySelector('.player1 .score');
 let p2Score = document.querySelector('.player2 .score');
+
+
+function startSession() {
+    playBtn.style.display = 'none';
+    formPopup.style.display = 'block';
+
+    cancelBtn.addEventListener('click', cancelForm);
+
+    for (avatar of avatarImgs) {
+        avatar.addEventListener('click', handleAvatarClick);
+    }
+
+    for (token of tokenImgs) {
+        token.addEventListener('click', handleTokenClick);
+    }
+
+    submitBtn.addEventListener('click', submitForm);
+
+
+    
+    // This bit of code will be moved into the "startGame" button click handler
+    // for (cell of gridCells) {
+        // cell.addEventListener('click', handleCellClick);
+    // }
+    // infoPara.innerHTML = `${players[turnPlayer].name}'s turn <img src="images/x-img.png" height=17px align-items="center">`;
+}
+
+function handleAvatarClick(e) {
+    // Establish who the player is
+    let playerClick = e.target.dataset.player;
+
+    // Remove the player's .selected-avatar class from all their imgs
+    document.querySelectorAll(`.player${playerClick}-avatar img`).forEach((avatar) => {
+        avatar.classList.remove('selected-avatar')
+    });
+
+    // Adds .selected-avatar class to the clicked avatar image
+    e.target.classList.add('selected-avatar');
+
+    // Updates the player's Object 
+    players[`player${playerClick}`].avatar = e.target.dataset.avatar;
+}
+
+function handleTokenClick(e) {
+    // Establish who the player is
+    let playerClick = e.target.dataset.player;
+    console.log(playerClick);
+
+    // Remove the player's .selected-token class from all their imgs
+    document.querySelectorAll(`.player${playerClick}-token img`).forEach((token) => {
+        token.classList.remove('selected-token')
+    });
+
+    // Adds .selected-token class to the clicked token image
+    e.target.classList.add('selected-token');
+
+    // Updates the player's Object 
+    players[`player${playerClick}`].token = e.target.dataset.token;
+}
 
 function cancelForm() {
     playBtn.style.display = 'block';
@@ -49,21 +113,9 @@ function cancelForm() {
     gameDuration.value = "";
 }
 
-
-function startSession() {
-    playBtn.style.display = 'none';
-    formPopup.style.display = 'block';
-
-    cancelBtn.addEventListener('click', cancelForm);
-
+function submitForm() {
     
-    // This bit of code will be moved into the "startGame" button click handler
-    // for (cell of gridCells) {
-        // cell.addEventListener('click', handleCellClick);
-    // }
-    // infoPara.innerHTML = `${players[turnPlayer].name}'s turn <img src="images/x-img.png" height=17px align-items="center">`;
 }
-
 
 function updateCellHTML(etarget, token) {
     etarget.classList.remove('empty-cell');
