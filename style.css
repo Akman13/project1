@@ -17,7 +17,6 @@ body, html {
 }
 
 #credits {
-    
     text-decoration: none;
     font-size: 0.8em;
     color: black;
@@ -39,7 +38,7 @@ body, html {
 .intro p {
     text-align: center;
     font-size: 1.3vw;
-    margin: 15px;
+    margin: 30px;
 }
 
 main {
@@ -51,11 +50,14 @@ main {
 .player1-scoreboard h1, .player2-scoreboard h1 {
     text-align: center;
     font-size: 3.5em;
+    margin: 10px;
 }
 
 .player1-scoreboard p, .player2-scoreboard p {
     margin-left: 8px;
     font-size: 1.5em;
+    display: flex;
+    align-items: center;
 }
 
 .grid {
@@ -198,9 +200,38 @@ main {
     margin: 20px;
 }
 
-footer {
-    margin-left: 15px;
+.warning {
+    font-size: 1.1em;
+    visibility: hidden;
+    margin: 0 auto;
 }
+
+.player2-scoreboard, .player1-scoreboard {
+    position: relative;
+}
+
+.turn-duration {
+    display: none;
+    position: absolute;
+    bottom: 5%;
+    right: 5%;
+    font-size: 3.5em;
+}
+
+.avatar {
+    display: none;
+    max-width: 100%;
+    margin: 0 auto;
+    width: 50%;
+}
+
+.token img {
+    display: none;
+    max-width: 50%;
+    margin: 5px;
+    width: 20%;
+}
+
 
 *[token="x"] {
     background-image: url('images/x-img.png');
@@ -220,13 +251,49 @@ footer {
     display: flex;
 }
 
-#play {
+*[token="cheese"] {
+    background-image: url('images/cheese.png');
+    background-color: white;
+    background-size:90%;
+    background-repeat:no-repeat;
+    background-position: center;
     display: flex;
+}
+
+*[token="tomato"] {
+    background-image: url('images/tomato.png');
+    background-color: white;
+    background-size:90%;
+    background-repeat:no-repeat;
+    background-position: center;
+    display: flex;
+}
+
+*[token="bean"] {
+    background-image: url('images/bean.png');
+    background-color: white;
+    background-size:90%;
+    background-repeat:no-repeat;
+    background-position: center;
+    display: flex;
+}
+
+#start-game {
+    padding: 5px;
     margin: auto;
-    font-size: 16px;
+    font-size: 26px;
+}
+
+#play {
+    padding: 5px;
+    display: none;
+    margin: auto;
+    font-size: 26px;
 }
 
 #play-again {
+    padding: 5px;
     display: none;
     margin: auto;
+    font-size: 26px;
 }
