@@ -20,6 +20,8 @@ let players = {
 
 let gameConfig = {
     timer: 20,
+    currentTimer: 0,
+    timeID: null,
 }
 
 let turnPlayer = 'player1';
@@ -47,10 +49,10 @@ let p1NameDisplay = document.querySelector('.player1-scoreboard h1');
 let p2NameDisplay = document.querySelector('.player2-scoreboard h1');
 
 
-let infoPara = document.querySelector('.intro p');
+let infoPara = document.querySelector('#info');
 let warningPara = document.querySelector('.warning');
-let p1Score = document.querySelector('.player1 .score');
-let p2Score = document.querySelector('.player2 .score');
+let p1Score = document.querySelector('.player1-scoreboard .score');
+let p2Score = document.querySelector('.player2-scoreboard .score');
 
 
 function startSession() { // Called if startGameBtn is clicked. Displays the Game Settings window for player inputs
@@ -154,10 +156,11 @@ function submitForm() { // Called from event listener in startSession. Verifies 
 
     warningPara.style.visibility = 'hidden';
     gameConfig.timer = Number(turnDurationInput.value);
+    gameConfig.currentTimer = Number(turnDurationInput.value);
     gameSetup();
 }
 
-function gameSetup() { // Called from submitForm. Displays the turn timer, a START GAME button, and calls playerSetup
+function gameSetup() { // Called from submitForm. Displays the turn timer, a START GAME button
     p1TurnTimer.textContent = gameConfig.timer;
     p1TurnTimer.style.display = 'inline-block';
     
@@ -210,11 +213,11 @@ function displayTokens() {
         p1Token.src = 'images/x-img.png';
     } else if (players.player1.token === 'o') {
         p1Token.src = 'images/o-img.png';
-    } else if (players.player1.token = 'bean') {
+    } else if (players.player1.token === 'bean') {
         p1Token.src = 'images/bean2.png';
-    } else if (players.player1.token = 'cheese') {
+    } else if (players.player1.token === 'cheese') {
         p1Token.src = 'images/cheese2.png';
-    } else if (players.player1.token = 'tomato') {
+    } else if (players.player1.token === 'tomato') {
         p1Token.src = 'images/tomato2.png';
     }
     p1Token.style.display = 'flex';
@@ -223,38 +226,71 @@ function displayTokens() {
         p2Token.src = 'images/x-img.png';
     } else if (players.player2.token === 'o') {
         p2Token.src = 'images/o-img.png';
-    } else if (players.player2.token = 'bean') {
+    } else if (players.player2.token === 'bean') {
         p2Token.src = 'images/bean.png';
-    } else if (players.player2.token = 'cheese') {
+    } else if (players.player2.token === 'cheese') {
         p2Token.src = 'images/cheese.png';
-    } else if (players.player2.token = 'tomato') {
+    } else if (players.player2.token === 'tomato') {
         p2Token.src = 'images/tomato.png';
     }
     p2Token.style.display = 'flex';
 }
 
-function playerSetup() {
-}
-
-function startGame() { // Called from playerSetup() and from playAgain(). Creates the event listeners for the grid cells
-    // This bit of code will be moved into the "startGame" button click handler
+function startGame() { // Called from gameSetup() and from playAgain(). Creates the event listeners for the grid cells and begins the first round
+    playBtn.style.display = 'none';
     for (cell of gridCells) {
         cell.addEventListener('click', handleCellClick);
     }
-    // infoPara.innerHTML = `${players[turnPlayer].name}'s turn <img src="images/x-img.png" height=17px align-items="center">`;
+    
+    infoPara.style.display = 'block';
+    infoPara.textContent = `${players[turnPlayer].name}'s turn`;
+
+    
+    while (!gameConfig.timeID) {
+        p1TurnTimer.textContent = `${gameConfig.currentTimer}`;
+        
+        gameConfig.timeID = setInterval(timer, 1000);
+    }
+}
+
+function timer() {
+    if (turnPlayer === 'player1') {
+        
+        gameConfig.currentTimer--;
+        p1TurnTimer.textContent = `${gameConfig.currentTimer}`;
+        
+        if (gameConfig.currentTimer === 0 ) {
+            console.log('Timer reached 0');
+            clearInterval(gameConfig.timeID);
+            gameConfig.timeID = null;
+            gameConfig.currentTimer = gameConfig.timer;
+            switchTurn();
+        }
+
+    } else {
+        gameConfig.currentTimer--;
+        p2TurnTimer.textContent = `${gameConfig.currentTimer}`;
+        
+        if (gameConfig.currentTimer === 0 ) {
+            console.log('Timer reached 0');
+            clearInterval(gameConfig.timeID);
+            gameConfig.timeID = null;
+            gameConfig.currentTimer = gameConfig.timer;
+            switchTurn();
+        }
+    }
 }
 
 function updateCellHTML(etarget, token) {
     etarget.classList.remove('empty-cell');
     etarget.setAttribute('token',token);
-    // Need to add more CSS styling for each token
 }
 
 function updatePlayerTokens(etarget) {
     players[turnPlayer].tokenLocations.push(Number(etarget.getAttribute('data-cell')));
 }
 
-function statusUpdate(turnPlayer) {
+function statusUpdate(turnPlayer) { // Called from handleCellClick. Checks if the players have won/drawn, calls other functions and returns back to handleCellClick
     let winCombinations = [[1,2,3], [1,4,7], [1,5,9], [2,5,8], [3,6,9], [3,5,7], [4,5,6], [7,8,9]];
     let tokenLocations = players[turnPlayer].tokenLocations;
     
@@ -292,7 +328,6 @@ function resetCells(cell) {
     if (cell.hasAttribute('token')) {
         cell.removeAttribute('token');
     }
-
 }
 
 function updatePlayersInfo() {
@@ -318,8 +353,8 @@ function playAgain() {
     gridCells.forEach(resetCells);
 
     // Call Fn to get user configs
-    
-    infoPara.innerHTML = `${players.player1.name}'s turn <img src="images/x-img.png" height=17px align-items="center">`;
+    startGame();
+    // infoPara.innerHTML = `${players.player1.name}'s turn <img src="images/x-img.png" height=17px align-items="center">`;
 }
 
 function handleCellClick(e) {
@@ -327,9 +362,13 @@ function handleCellClick(e) {
         return;
     };
 
-    let token = players[turnPlayer].token;
+    clearInterval(gameConfig.timeID);
+    gameConfig.timeID = null;
+    gameConfig.currentTimer = gameConfig.timer;
+
+    let turnToken = players[turnPlayer].token;
     
-    updateCellHTML(e.target, token);
+    updateCellHTML(e.target, turnToken);
     updatePlayerTokens(e.target);
     let gameStatus = statusUpdate(turnPlayer);
     
@@ -338,77 +377,34 @@ function handleCellClick(e) {
         return;
     }
 
-
     // Create function to display player's turn + the countdown timer
-    if (turnPlayer === 'player1') { // If game not over: Updates the display
-        turnPlayer = 'player2';
-        infoPara.innerHTML = `${players[turnPlayer].name}'s turn <img src="images/o-img.png" height=17px align-items="center">`;
+    switchTurn();
+}
 
+function switchTurn() { // Called from startGame (1st round) and from handleCellClick
+
+    // Hide the existing timer & Change turnPlayer to the next player
+    if (turnPlayer === 'player1') { 
+        p1TurnTimer.style.display = 'none';
+        turnPlayer = 'player2';
+        infoPara.textContent = `${players[turnPlayer].name}'s turn`;
+        p2TurnTimer.style.display = 'inline-block'
+        p2TurnTimer.textContent = gameConfig.timer;
     } else {
+        p2TurnTimer.style.display = 'none';
         turnPlayer = 'player1';
-        infoPara.innerHTML = `${players[turnPlayer].name}'s turn <img src="images/x-img.png" height=17px align-items="center">`;
+        infoPara.textContent = `${players[turnPlayer].name}'s turn`;
+        p1TurnTimer.style.display = 'inline-block';
+        p1TurnTimer.textContent = gameConfig.timer;
     }
 
-    // Timer to alternate per turn --> Go into the grid click handler
+    
 
-
+    // Create a time for the new player. Record its timeID in the config file
+    while (!gameConfig.timeID) {
+        p1TurnTimer.textContent = `${gameConfig.currentTimer}`;
+        gameConfig.timeID = setInterval(timer, 1000);
+    }
 }
-
 
 startGameBtn.addEventListener('click', startSession);
-
-
-// gameConfig.grid = Number(prompt('Choose the size of your grid (Enter 3 for 3x3, 4 for 4x4):'));
-// If they input 4x4, you'll need to:
-// - Create more divs inside the grid, 
-// - Modify the # of columns and rows in CSS,
-// - Polish its sizing
-
-/* Play function - tie it to the replay button
-// function startGame() {
-    Get their desired grid size
-    Get their turn timer (enforce a max of ~30s)
-    Create more divs and update CSS if required
-    Initialise all cells - class ="empty-cell", data-cell from 1 to max, no tokens
-}
-*/
-
-/* Win Function;
-// function playerWon(winner) {
-    Display a congrats message
-    Increase winner's win counter
-    Increase winner's streak counter
-    Display a play again screen?
-} */
-
-/* Draw Function;
-// function playerWon() {
-    Display a congrats message
-    Increase winner's win counter
-    Increase winner's streak counter
-    Display a play again screen?
-} */
-
-
-
-
-/* There will be 9 starting buttons
-// Therefore, create a handleClickFn for all 9
-// At the start of the Fn:
-// - Guard: Return if cell doesn't have "empty-cell" class
-// - Check whose turn it is (turnPlayer)
-// - Add the token value to cell
-
-// At the end of the Fn:
-// - Remove the grid's empty-cell class
-// - Check if they won (if so, call win Fn)
-// - Check if they drew (if so, call draw Fn)
-// - Change the turnPlayer and display it somewhere */
-
-
-
-// Receive the empty cells as buttons
-// Make two handleCellClick functions, one per player
-// They go into their player's object and switch the token to that
-
-// When you click, the grid changes its styling and stores the new token

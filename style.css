@@ -32,6 +32,13 @@ body, html {
     margin: 0;
 }
 
+#info {
+    text-align: center;
+    margin: 30px auto;
+    display: none;
+    font-size: 2.5em;
+}
+
 .intro p {
     text-align: center;
     font-size: 1.3vw;
@@ -207,11 +214,19 @@ main {
     position: relative;
 }
 
-.turn-duration {
+.player1-scoreboard .turn-duration {
     display: none;
     position: absolute;
     bottom: 5%;
     right: 5%;
+    font-size: 3.5em;
+}
+
+.player2-scoreboard .turn-duration {
+    display: none;
+    position: absolute;
+    bottom: 5%;
+    left: 5%;
     font-size: 3.5em;
 }
 
@@ -284,7 +299,7 @@ main {
 #play {
     padding: 5px;
     display: none;
-    margin: auto;
+    margin: 10px auto;
     font-size: 26px;
 }
 
