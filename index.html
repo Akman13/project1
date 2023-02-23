@@ -6,24 +6,78 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tic-Tac-Taco</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Lobster&family=Luckiest+Guy&display=swap" rel="stylesheet">
 </head>
 <body>
     
     <header class="intro">
         <h1>TIC-TAC-TACO</h1>
-        <p>As the most Award-Winning game of 2023, TIC-TAC-TACO is sure to keep you entertained for weeks! With an AI-infused* algorithm powering the computer's moves, you'll definitely want to take the kid gloves off...</p>
-        <button id="play-again">Play again!</button>
+        <p><button id="play">PLAY</button></p>
+        <button id="play-again">PLAY AGAIN!</button>
     </header>
 
     <main>
+
+        <div class="form-popup">
+            <div class="form-container">
+                <h1>Game settings</h1>
+                
+                <h2 class="player1">Player 1</h2>
+                <h2 class="player2">Player 2</h2>
+                
+
+                <div class="player1-name">
+                    <label for="player1-name">Name</label>
+                    <br>
+                    <input type="text" placeholder="Player 1 name" name="player1-name">
+                </div>
+                <div class="player2-name">
+                    <label for="player2-name">Name</label>
+                    <br>
+                    <input type="text" placeholder="Player 2 name" name="player2-name">
+                </div>
+                
+
+                <div class="player1-avatar">
+                    <label for="player1-avatar">Avatar </label>
+                </div>
+                <div class="player2-avatar">
+                    <label for="player2-avatar">Avatar</label>
+                </div>
+
+
+                <div class="player1-token">
+                    <label for="player1-token">Token</label>
+
+                </div>
+                <div class="player2-token">
+                    <label for="player2-token">Token</label>
+                    
+                </div>
+
+                
+                <div class="game-config">
+                    <label for="game-config">Turn Duration:</label>
+                    <input type="number" placeholder="Duration (s)" name="turn-duration">
+                </div>               
+                
+                <div class="form-buttons">
+                    <button id="submit">Submit</button>
+                    <button id="cancel">Cancel</button>
+                    <p class="warning"></p>
+                </div>
+            </div>
+        </div>
         
         <section class="player1">
-            <h1>Player</h1>
+            <h1>Player 1</h1>
             <p>Score: <span class="score"></span></p>
         </section>
 
         <section class="grid">
-            <div data-cell="1" class="empty-cell" ></div>
+            <div data-cell="1" class="empty-cell"></div>
             <div data-cell="2" class="empty-cell"></div>
             <div data-cell="3" class="empty-cell"></div>
             <div data-cell="4" class="empty-cell"></div>
@@ -35,7 +89,7 @@
         </section>
 
         <section class="player2">
-            <h1>AI-Infused Computer</h1>
+            <h1>Player 2</h1>
             <p>Score: <span class="score"></span></p>
         </section>
 

@@ -17,16 +17,52 @@ let players = {
 
 
 let gameConfig = {
-    gridDimension: 3,
-    timer: NaN,
+    timer: 20,
 }
 
 let turnPlayer = 'player1';
 let gridCells = document.querySelectorAll('.empty-cell');
+let playBtn = document.querySelector('#play');
 let playAgainBtn = document.querySelector('#play-again');
+
+let formPopup = document.querySelector('.form-popup');
+let p1Name = document.querySelector('.player1-name input');
+let p2Name = document.querySelector('.player2-name input');
+let gameDuration = document.querySelector('.game-config input');
+let cancelBtn = document.querySelector('#cancel');
+
 let infoPara = document.querySelector('.intro p');
 let p1Score = document.querySelector('.player1 .score');
 let p2Score = document.querySelector('.player2 .score');
+
+function cancelForm() {
+    playBtn.style.display = 'block';
+    formPopup.style.display = 'none';
+    
+    // Reset value of input fields
+    p1Name.value = "";
+    p2Name.value = "";
+    
+    // Reset selected avatars & tokens
+    
+    // Reset value of timer
+    gameDuration.value = "";
+}
+
+
+function startSession() {
+    playBtn.style.display = 'none';
+    formPopup.style.display = 'block';
+
+    cancelBtn.addEventListener('click', cancelForm);
+
+    
+    // This bit of code will be moved into the "startGame" button click handler
+    // for (cell of gridCells) {
+        // cell.addEventListener('click', handleCellClick);
+    // }
+    // infoPara.innerHTML = `${players[turnPlayer].name}'s turn <img src="images/x-img.png" height=17px align-items="center">`;
+}
 
 
 function updateCellHTML(etarget, token) {
@@ -106,8 +142,8 @@ function playAgain() {
     infoPara.innerHTML = `${players.player1.name}'s turn <img src="images/x-img.png" height=17px align-items="center">`;
 }
 
-function handleClick(e) {
-    if (!e.target.classList.contains("empty-cell")) { // If the cell is occupied: return
+function handleCellClick(e) {
+    if (!e.target.classList.contains("empty-cell")) { // If cell already occupied: return
         return;
     };
 
@@ -132,9 +168,9 @@ function handleClick(e) {
     }
 }
 
-for (cell of gridCells) {
-    cell.addEventListener('click', handleClick);
-}
+
+playBtn.addEventListener('click', startSession);
+
 
 // gameConfig.grid = Number(prompt('Choose the size of your grid (Enter 3 for 3x3, 4 for 4x4):'));
 // If they input 4x4, you'll need to:
@@ -186,7 +222,7 @@ for (cell of gridCells) {
 
 
 // Receive the empty cells as buttons
-// Make two handleClick functions, one per player
+// Make two handleCellClick functions, one per player
 // They go into their player's object and switch the token to that
 
 // When you click, the grid changes its styling and stores the new token
