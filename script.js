@@ -354,7 +354,6 @@ function playAgain() {
 
     // Call Fn to get user configs
     startGame();
-    // infoPara.innerHTML = `${players.player1.name}'s turn <img src="images/x-img.png" height=17px align-items="center">`;
 }
 
 function handleCellClick(e) {
